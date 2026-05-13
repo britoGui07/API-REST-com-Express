@@ -1,0 +1,31 @@
+{
+  "name": "api-rest-com-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/app.js",
+    "build": "npx tsc",
+    "dev": "ts - node src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/britoGui07/API-REST-com-Express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/britoGui07/API-REST-com-Express/issues"
+  },
+  "homepage": "https://github.com/britoGui07/API-REST-com-Express#readme",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.7.0",
+    "express": "^5.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

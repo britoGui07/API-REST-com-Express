@@ -1,5 +1,4 @@
 # Atividade de construção de uma API Rest com Express.js
 
-### Processo
-- 11/05 - Criação do repositório, configuração do ambiente e instalação das bibliotecas
-- 13/05 - Código de app.ts iniciado
+API REST para gerenciamento de produtos de uma papelaria, desenvolvida com **Node.js**, **Express** e **TypeScript**.
+Permite realizar operações de cadastro, listagem, busca, atualização e remoção de produtos armazenados em memória.

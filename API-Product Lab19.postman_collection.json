@@ -1,0 +1,275 @@
+{
+  "info": {
+    "_postman_id": "f48e7f23-d6a7-4b3a-91c2-d3c2337a522c",
+    "name": "API-Product Lab19",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54273057",
+    "_collection_link": "https://go.postman.co/collection/54273057-f48e7f23-d6a7-4b3a-91c2-d3c2337a522c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "buscarPorID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/product/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "product",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cadastrarProduto",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 1,\r\n    \"nome\": \"Caderno\",\r\n    \"preco\": 12.99,\r\n    \"fabricante\": {\r\n        \"nome\": \"Tilibra\",\r\n        \"endereco\": {\r\n            \"cidade\": \"São Paulo\",\r\n            \"pais\": \"Brasil\" }\r\n    }\r\n}\r\n/*\r\n{\r\n    \"id\": 2,\r\n    \"nome\": \"Caneta\",\r\n    \"preco\": 5.50,\r\n    \"fabricante\": {\r\n        \"nome\": \"BIC\",\r\n        \"endereco\": {\r\n            \"cidade\": \"Manaus\",\r\n            \"pais\": \"Brasil\"\r\n        }\r\n    }\r\n}\r\n*/",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/product",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "product"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listarTodos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Visualization Script",
+              "// Visualization Script",
+              "",
+              "const template = `",
+              "<html>",
+              "<head>",
+              "  <style>",
+              "    body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }",
+              "    h2 { color: #333; }",
+              "    table { border-collapse: collapse; width: 100%; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 6px; overflow: hidden; }",
+              "    th { background-color: #4CAF50; color: white; padding: 12px 16px; text-align: left; font-size: 14px; }",
+              "    td { padding: 10px 16px; border-bottom: 1px solid #e0e0e0; font-size: 13px; color: #444; }",
+              "    tr:nth-child(even) td { background-color: #f2f9f2; }",
+              "    tr:hover td { background-color: #e8f5e9; }",
+              "    .empty { text-align: center; padding: 20px; color: #999; font-style: italic; }",
+              "    .badge { background: #e8f5e9; color: #2e7d32; border-radius: 4px; padding: 2px 8px; font-size: 12px; }",
+              "  </style>",
+              "</head>",
+              "<body>",
+              "  <h2>📦 Lista de Produtos</h2>",
+              "  {{#if hasProducts}}",
+              "  <table>",
+              "    <thead>",
+              "      <tr>",
+              "        <th>ID</th>",
+              "        <th>Nome</th>",
+              "        <th>Preço</th>",
+              "        <th>Fabricante</th>",
+              "      </tr>",
+              "    </thead>",
+              "    <tbody>",
+              "      {{#each products}}",
+              "      <tr>",
+              "        <td><span class=\"badge\">{{id}}</span></td>",
+              "        <td>{{nome}}</td>",
+              "        <td>{{preco}}</td>",
+              "        <td>{{fabricante}}</td>",
+              "      </tr>",
+              "      {{/each}}",
+              "    </tbody>",
+              "  </table>",
+              "  {{else}}",
+              "  <p class=\"empty\">Nenhum produto encontrado.</p>",
+              "  {{/if}}",
+              "</body>",
+              "</html>",
+              "`;",
+              "",
+              "function createPayload() {",
+              "    let data;",
+              "    try {",
+              "        data = pm.response.json();",
+              "    } catch (e) {",
+              "        return { hasProducts: false, products: [] };",
+              "    }",
+              "",
+              "    let list = [];",
+              "    if (Array.isArray(data)) {",
+              "        list = data;",
+              "    } else if (data && typeof data === 'object') {",
+              "        // Handle wrapped responses like { data: [...] } or { products: [...] }",
+              "        const keys = Object.keys(data);",
+              "        for (let i = 0; i < keys.length; i++) {",
+              "            if (Array.isArray(data[keys[i]])) {",
+              "                list = data[keys[i]];",
+              "                break;",
+              "            }",
+              "        }",
+              "        if (list.length === 0 && data.id !== undefined) {",
+              "            list = [data];",
+              "        }",
+              "    }",
+              "",
+              "    const products = list.map(function(p) {",
+              "        let fabricanteStr = '';",
+              "        if (p.fabricante && typeof p.fabricante === 'object') {",
+              "            fabricanteStr = p.fabricante.nome || '';",
+              "            if (p.fabricante.endereco && typeof p.fabricante.endereco === 'object') {",
+              "                const end = p.fabricante.endereco;",
+              "                const parts = [end.cidade, end.pais].filter(Boolean);",
+              "                if (parts.length > 0) {",
+              "                    fabricanteStr += ' (' + parts.join(', ') + ')';",
+              "                }",
+              "            }",
+              "        } else {",
+              "            fabricanteStr = p.fabricante || '';",
+              "        }",
+              "",
+              "        return {",
+              "            id: p.id !== undefined ? p.id : '-',",
+              "            nome: p.nome || p.name || '-',",
+              "            preco: p.preco !== undefined ? 'R$ ' + parseFloat(p.preco).toFixed(2).replace('.', ',') : '-',",
+              "            fabricante: fabricanteStr || '-'",
+              "        };",
+              "    });",
+              "",
+              "    return {",
+              "        hasProducts: products.length > 0,",
+              "        products: products",
+              "    };",
+              "}",
+              "",
+              "pm.visualizer.set(template, createPayload());",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "buscarPorNome",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/product?name=caneta",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "product"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "caneta",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "atualizarProduto",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Caderno Universitário\",\r\n    \"preco\": 15.99,\r\n    \"fabricante\": {\r\n        \"nome\": \"Tilibra\",\r\n        \"endereco\": {\r\n            \"cidade\": \"São Paulo\",\r\n            \"pais\": \"Brasil\"\r\n        }\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/product/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "product",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "removerProduto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/product/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "product",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
